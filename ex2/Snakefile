@@ -1,0 +1,18 @@
+import pandas as pd
+import os
+
+configfile: "config/config.yaml"
+
+# Load samples
+samples = pd.read_csv("config/samples.tsv", sep="\t")
+SAMPLES = samples["sample"].tolist()
+
+
+# Include rule files
+include: "workflow/rules/bowtie.smk"
+include: "workflow/rules/samtools.smk"
+
+rule all:
+    input:
+        expand("results/stats/{sample}.idxstats.txt", sample=SAMPLES),
+	"results/stats/aggregated_idxstats.tsv"
