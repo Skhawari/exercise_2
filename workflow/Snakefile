@@ -1,0 +1,30 @@
+configfile: "../config/config.yaml"
+
+import pandas as pd
+
+include: "rules/bowtie.smk"
+include: "rules/samtools.smk"
+
+samples = pd.read_csv(config["samples"], index_col="sample", sep="\t")
+sample_names = list(samples.index)
+
+
+# list all the samples
+# rule all:
+#    input:
+#        expand("stats/{sample}.stats", sample = list(samples.index))
+
+# expand("stats/{sample}.stats", sample = list(samples.index))
+
+rule aggregate_idxstats:
+  input:
+    expand("results/stats/{sample}.idxstats.txt", sample=sample_names)
+  output:
+    "results/summary/idxstats_summary.tsv"
+  script:
+    "scripts/aggregate_idxstats.py"
+
+rule all:
+  input:
+    expand("results/stats/{sample}.idxstats.txt", sample=sample_names),
+    "results/summary/idxstats_summary.tsv"

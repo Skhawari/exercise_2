@@ -1,0 +1,21 @@
+# Ignore all output and intermediate data
+results/
+.snakemake/
+.conda/
+.mamba/
+.pytest_cache/
+.DS_Store
+
+# Ignore large data files
+*.sam
+*.bam
+*.bai
+*.bt2
+*.log
+*.gz
+
+# Ignore editor/OS junk
+__pycache__/
+*.swp
+*.swo
+.vscode/
