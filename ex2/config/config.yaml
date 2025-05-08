@@ -1,5 +1,5 @@
-data_dir: "data/tiny"
-reference: "data/reference.fa"
+data_dir: "../resources/tiny"
+reference: "../resources/reference.fa"
 bowtie2_params:
   sensitivity: "--very-sensitive"
   seed_mismatch: "-N 1"

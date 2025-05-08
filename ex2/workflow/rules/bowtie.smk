@@ -1,9 +1,9 @@
 import pandas as pd
 
-configfile: "config/config.yaml"
+configfile: "../config/config.yaml"
 
 
-samples = pd.read_csv("config/samples.tsv", sep="\t")
+samples = pd.read_csv("../config/samples.tsv", sep="\t")
 # Load samples table
 SAMPLES = samples["sample"].tolist()
 SAMPLE_READS = dict(zip(samples["sample"], zip(samples["fq1"], samples["fq2"])))
@@ -31,7 +31,7 @@ rule bowtie2_map:
         reads = lambda wildcards: SAMPLE_READS[wildcards.sample],
         index = BT2_INDEX_FILES
     output:
-        "data/tiny/{sample}.sam"
+        "../resources/tiny/{sample}.sam"
     threads: 4
     conda:
         "../envs/bowtie.yaml"

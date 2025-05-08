@@ -1,8 +1,8 @@
 rule sam_to_bam:
     input:
-        lambda wildcards: f"data/tiny/{wildcards.sample}.sam"
+        lambda wildcards: f"../resources/tiny/{wildcards.sample}.sam"
     output:
-        "results/bam/{sample}.bam"
+        "../results/bam/{sample}.bam"
     threads: 1
     conda:
         "../envs/samtools.yaml"
@@ -11,9 +11,9 @@ rule sam_to_bam:
 
 rule sort_bam:
     input:
-        "results/bam/{sample}.bam"
+        "../results/bam/{sample}.bam"
     output:
-        "results/bam_sorted/{sample}.sorted.bam"
+        "../results/bam_sorted/{sample}.sorted.bam"
     threads: 4
     conda:
         "../envs/samtools.yaml"
@@ -22,9 +22,9 @@ rule sort_bam:
 
 rule index_bam:
     input:
-        "results/bam_sorted/{sample}.sorted.bam"
+        "../results/bam_sorted/{sample}.sorted.bam"
     output:
-        "results/bam_sorted/{sample}.sorted.bam.bai"
+        "../results/bam_sorted/{sample}.sorted.bam.bai"
     threads: 1
     conda:
         "../envs/samtools.yaml"
@@ -33,10 +33,10 @@ rule index_bam:
 
 rule idxstats:
     input:
-        bam="results/bam_sorted/{sample}.sorted.bam",
-        bai="results/bam_sorted/{sample}.sorted.bam.bai"
+        bam="../results/bam_sorted/{sample}.sorted.bam",
+        bai="../results/bam_sorted/{sample}.sorted.bam.bai"
     output:
-        "results/stats/{sample}.idxstats.txt"
+        "../results/stats/{sample}.idxstats.txt"
     threads: 1
     conda:
         "../envs/samtools.yaml"
@@ -45,9 +45,9 @@ rule idxstats:
 
 rule aggregate_idxstats:
     input:
-        expand("results/stats/{sample}.idxstats.txt", sample=SAMPLES)
+        expand("../results/stats/{sample}.idxstats.txt", sample=SAMPLES)
     output:
-        "results/stats/aggregated_idxstats.tsv"
+        "../results/stats/aggregated_idxstats.tsv"
     run:
         import pandas as pd
 

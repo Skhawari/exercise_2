@@ -1,0 +1,22 @@
+import pandas as pd
+import os
+
+# Include rule files
+include: "rules/bowtie.smk"
+include: "rules/samtools.smk"
+
+configfile: "../config/config.yaml"
+
+# Load samples
+samples = pd.read_csv("../config/samples.tsv", sep="\t")
+SAMPLES = samples["sample"].tolist()
+
+#rule all:
+#    input:
+#        expand("../results/stats/{sample}.idxstats.txt", sample=SAMPLES),
+#	    "../results/stats/aggregated_idxstats.tsv"
+
+rule all:
+    input:
+        expand("../results/stats/{sample}.idxstats.txt", sample=SAMPLES),
+        "../results/stats/aggregated_idxstats.tsv"
